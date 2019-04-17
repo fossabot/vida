@@ -1,6 +1,8 @@
 package meta
 
-// add is here to test CI for now
+type meta interface {
+}
+
 func add(a, b int) int {
 	return a + b
 }

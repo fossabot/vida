@@ -1,0 +1,2 @@
+mode: atomic
+github.com/gangachris/vida/meta/meta.go:6.24,8.2 1 1
