@@ -25,4 +25,4 @@ test:
 
 .PHONY: test-ci
 test-ci:
-	go test -race -coverprofile=coverage.txt -covermode=atomic
+	go test -race -coverprofile=coverage.txt -covermode=atomic ./...

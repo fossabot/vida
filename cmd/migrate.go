@@ -10,8 +10,12 @@ import (
 	"github.com/fatih/color"
 	"github.com/gangachris/vida/config"
 	"github.com/golang-migrate/migrate/v4"
+
+	// postgres db migrations helper
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	// file source for migrations helper
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	// lib/pq is implements sql/db
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -19,7 +23,7 @@ import (
 
 const (
 	migrationsDir = "./migrations"
-	migrations    = "file://./migrations" // ¯\_(ツ)_/¯
+	migrations    = "file://./migrations" // this structure is weird ¯\_(ツ)_/¯
 )
 
 func init() {

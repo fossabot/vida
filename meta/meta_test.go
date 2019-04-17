@@ -13,7 +13,7 @@ func Test_add(t *testing.T) {
 		want int
 	}{
 		{
-			name: "sample test",
+			name: "test for ci",
 			args: args{1, 2},
 			want: 3,
 		},

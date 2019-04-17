@@ -1,6 +1,7 @@
 # VIDA (WIP)
 [![Build Status](https://travis-ci.com/gangachris/vida.svg?branch=master)](https://travis-ci.com/gangachris/vida)
-
+[![codecov](https://codecov.io/gh/gangachris/vida/branch/master/graph/badge.svg)](https://codecov.io/gh/gangachris/vida)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gangachris/vida)](https://goreportcard.com/report/github.com/gangachris/vida)
 
 Vida is a media server built with Golang and VueJS
 
