@@ -26,3 +26,7 @@ test:
 .PHONY: test-ci
 test-ci:
 	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+.PHONY: data
+data:
+	go run main.go data
