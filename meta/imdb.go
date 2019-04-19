@@ -18,13 +18,19 @@ var (
 	errMovieNotFound = errors.New("Movie not found")
 )
 
-// SearchIMDB searches for a movie in IMDB
-func SearchIMDB(title string) (s IMDBSuggestion, err error) {
+// Meta represents the struct that holds all meta functionality
+type Meta struct {
+	Client *http.Client
+}
+
+// SearchIMDB searches imdb for movies
+func (m *Meta) SearchIMDB(title string) (s IMDBSuggestion, err error) {
 	url := fmt.Sprintf("%s/%c/%s.json", imdbJSONPAPI, title[0], title)
-	resp, err := http.Get(url)
+	resp, err := m.Client.Get(url)
 	if err != nil {
 		return s, errors.Wrap(err, "error while making http request to"+url)
 	}
+
 	defer resp.Body.Close()
 
 	b, err := ioutil.ReadAll(resp.Body)
