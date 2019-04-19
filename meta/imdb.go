@@ -73,7 +73,7 @@ type i struct {
 }
 
 // ToMovie converts an IMDB suggestion to our movie model
-func (i *IMDBSuggestion) ToMovie() (movie models.Movie, err error) {
+func (i *IMDBSuggestion) ToMovie(playback string) (movie models.Movie, err error) {
 	// we'll pick the first array for now
 	if len(i.Data) == 0 {
 		return movie, errMovieNotFound
@@ -88,11 +88,12 @@ func (i *IMDBSuggestion) ToMovie() (movie models.Movie, err error) {
 	}
 
 	movie = models.Movie{
-		IMDBID:     m.IMDBID,
-		Title:      m.Title,
-		ImageURL:   m.Image.ImageURL,
-		TrailerURL: trailerURL,
-		Year:       m.Year,
+		IMDBID:      m.IMDBID,
+		Title:       m.Title,
+		ImageURL:    m.Image.ImageURL,
+		TrailerURL:  trailerURL,
+		Year:        m.Year,
+		PlaybackURI: playback,
 	}
 
 	imdbJSON, err := json.Marshal(i)

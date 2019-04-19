@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -10,7 +11,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
+	"github.com/gangachris/vida/config"
 	"github.com/gangachris/vida/meta"
+	"github.com/gangachris/vida/storage"
 )
 
 func init() {
@@ -74,6 +77,11 @@ var mediaSearchCmd = &cobra.Command{
 }
 
 func searchMovies(dir string) error {
+	cfg := config.Load()
+	store, err := storage.NewPostgres(cfg)
+	if err != nil {
+		exit(errors.Wrap(err, "could not initialize the data store"))
+	}
 	absolutePath, err := filepath.Abs(dir)
 	if err != nil {
 		exit(errors.Wrap(err, fmt.Sprint("could not get absolute path of %q"+dir)))
@@ -93,14 +101,16 @@ func searchMovies(dir string) error {
 				return err
 			}
 
-			color.Green("%s: %+v\n", file, imdbSuggestion)
-
-			movie, err := imdbSuggestion.ToMovie()
+			movie, err := imdbSuggestion.ToMovie(osPathname)
 			if err != nil {
 				return err
 			}
 
-			color.Cyan("%+v\n\n\n\n\n", movie)
+			// this will be removed to a central location for the API
+			if err := movie.Store(context.Background(), store); err != nil {
+				color.Green("%+v", err)
+				return nil
+			}
 
 			return nil
 		},

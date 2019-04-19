@@ -1,5 +1,12 @@
 package models
 
+import (
+	"context"
+
+	"github.com/gangachris/vida/entities"
+	"github.com/gangachris/vida/storage"
+)
+
 // Movie represents a movie
 type Movie struct {
 	ID          int64  `json:"id,omitempty"` // struct tags
@@ -15,4 +22,10 @@ type Movie struct {
 	CreatedAt   int64  `json:"created_at,omitempty"`
 	UpdatedAt   int64  `json:"updated_at,omitempty"`
 	IMDBJSON    string `json:"imdbjson,omitempty"`
+}
+
+// Store save a movie to the storage
+func (m *Movie) Store(ctx context.Context, store *storage.Storage) error {
+	movie := entities.Movie(*m)
+	return store.MovieStore.Store(ctx, &movie)
 }

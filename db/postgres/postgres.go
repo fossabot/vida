@@ -1,15 +1,13 @@
 package postgres
 
 import (
-	"github.com/gangachris/vida/config"
-
 	"github.com/jmoiron/sqlx"
 
-	// implements db/sql
-	_ "github.com/lib/pq"
+	"github.com/gangachris/vida/config"
 )
 
-// NewClient returns a new Psotgres client
+// NewClient creates a new instance of the db
 func NewClient(cfg config.Config) (*sqlx.DB, error) {
-	return sqlx.Connect(cfg.Database().Postgres().DriverName(), cfg.Database().Postgres().DSN())
+	pg := cfg.Database().Postgres()
+	return sqlx.Open(pg.DriverName(), pg.DSN())
 }

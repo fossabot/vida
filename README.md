@@ -9,9 +9,34 @@ Vida is a media server built with Golang and VueJS
 1. Docker and Docker Compose
 
 ## Run Everything
+
+
+## Status
+Still a WIP but the following works. Right now we can retrieve metadata about movies in a directory using IMDB
+
+1. Make sure the databse is running
 ```bash
-make start
+make db
 ```
+
+2. Run Migrations
+```bash
+make migrate-up
+```
+
+3. Make sure you have a directory with movies with `movie-name.mp4` for the movie names. To test, you can generate fake movie files with
+```bash
+make data
+```
+
+4. Get movie metadata (if you have a directory with movies, you can pass it to the dir flag below)
+```bash
+go run main.go media search --type movie --dir ./data
+```
+
+5. Check your db, it will have metadata for your movies. (POSTGRES: 5432, user: vida, password: vida, database: vida)
+
+...😜 😜 😜 😜 😜
 
 ## CLI
 The following commands are available to use (before the UI is built)
