@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"path/filepath"
 	"strings"
 
@@ -82,6 +83,8 @@ func searchMovies(dir string) error {
 	if err != nil {
 		exit(errors.Wrap(err, "could not initialize the data store"))
 	}
+	metaHelper := meta.Meta{Client: http.DefaultClient}
+
 	absolutePath, err := filepath.Abs(dir)
 	if err != nil {
 		exit(errors.Wrap(err, fmt.Sprint("could not get absolute path of %q"+dir)))
@@ -96,7 +99,7 @@ func searchMovies(dir string) error {
 			}
 			search := strings.TrimSuffix(file, ".mp4") // TODO: should support other formats
 
-			imdbSuggestion, err := meta.SearchIMDB(search)
+			imdbSuggestion, err := metaHelper.SearchIMDB(search)
 			if err != nil {
 				return err
 			}
