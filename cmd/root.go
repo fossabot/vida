@@ -9,6 +9,7 @@ import (
 )
 
 var (
+	// ErrNotImplemented is used to show that a method/functionality is not yet implemented
 	ErrNotImplemented = errors.New("Not Implemented Yet")
 )
 
@@ -26,4 +27,10 @@ func Execute() {
 		color.Red("%v", err)
 		os.Exit(1)
 	}
+}
+
+// exit is used to exit the application
+func exit(err error) {
+	color.Red("%v", err)
+	os.Exit(1)
 }

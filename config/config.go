@@ -14,8 +14,8 @@ func (c Config) Database() Database {
 	return c.database
 }
 
-// LoadConfig returns the configuration for the server
-func LoadConfig() Config {
+// Load returns the configuration for the server
+func Load() Config {
 	postgres := Postgres{}
 	db := Database{
 		postgres: postgres,

@@ -83,7 +83,7 @@ var upCmd = &cobra.Command{
 	Use:   "up",
 	Short: "Run up for all the migrations",
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg := config.LoadConfig()
+		cfg := config.Load()
 		if err := runMigrations(cfg, migrations, "up"); err != nil {
 			color.Red("%v", err)
 			os.Exit(1)
@@ -96,7 +96,7 @@ var downCmd = &cobra.Command{
 	Use:   "down",
 	Short: "Run down for all the migrations",
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg := config.LoadConfig()
+		cfg := config.Load()
 		if err := runMigrations(cfg, migrations, "down"); err != nil {
 			color.Red("%v", err)
 			os.Exit(1)
@@ -109,7 +109,7 @@ var rollbackCmd = &cobra.Command{
 	Use:   "rollback",
 	Short: "Rollback the previous migration",
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg := config.LoadConfig()
+		cfg := config.Load()
 		if err := runMigrations(cfg, migrations, "rollback"); err != nil {
 			color.Red("%v", err)
 			os.Exit(1)

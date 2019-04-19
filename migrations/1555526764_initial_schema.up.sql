@@ -20,7 +20,7 @@ ALTER FUNCTION update_modified_at()
 
 -- DROP SCHEMA vida ;
 
-CREATE SCHEMA vida
+CREATE SCHEMA IF NOT EXISTS vida
   AUTHORIZATION vida;
 
 COMMENT ON SCHEMA vida
@@ -34,12 +34,12 @@ CREATE TABLE vida.movies
   imdb_id character varying(10),
   title text NOT NULL,
   synopsis text,
-  image text,
-  trailer text,
+  image_url text,
+  trailer_url text,
+  playback_uri text,
   starring text,
   duration character varying(8),
   year integer NOT NULL,
-  local_path text NOT NULL,
   imdb_json json,
   release_date timestamp without time zone,
   created_at timestamp without time zone  DEFAULT now(),

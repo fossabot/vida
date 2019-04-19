@@ -3,3 +3,6 @@ pgdata
 
 # builds
 vida
+
+coverage.txt
+data
