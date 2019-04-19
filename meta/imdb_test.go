@@ -16,5 +16,6 @@ func TestMeta_SearchIMDB(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.Equal(t, "Avengers: Endgame", movie.Title)
-	assert.Equal(t, 2019, movie.ReleaseDate)
+	assert.Equal(t, int64(2019), movie.Year)
+	assert.Equal(t, "tt4154796", movie.IMDBID)
 }
