@@ -32,6 +32,17 @@ func (m MovieStore) Store(ctx context.Context, movie *entities.Movie) error {
 	return err
 }
 
+// All returns all movies in the database
+func (m MovieStore) All(ctx context.Context) (movies []entities.Movie, err error) {
+	query := `
+		SELECT
+			id, imdb_id, title, synopsis, image_url, trailer_url, playback_uri, duration, year
+		FROM ` + moviesTableName
+
+	err = m.client.Select(&movies, query)
+	return
+}
+
 // IMDBJSONExists checks wether the potential json to be returned was already searched/request already sent
 func (m MovieStore) IMDBJSONExists(ctx context.Context, search string) (bool, error) {
 	query := `

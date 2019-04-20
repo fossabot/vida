@@ -16,6 +16,7 @@ type Movie struct {
 	ImageURL    string `json:"image_url,omitempty"`
 	TrailerURL  string `json:"trailer_url,omitempty"`
 	PlaybackURI string `json:"playback_uri,omitempty"`
+	Starring    string `json:"starring,omitempty"`
 	Duration    string `json:"duration,omitempty"`
 	Year        int64  `json:"year,omitempty"`
 	ReleaseDate int64  `json:"release_date,omitempty"`
@@ -34,4 +35,18 @@ func (m *Movie) Store(ctx context.Context, store *db.Storage) error {
 // MovieIMDBJSONExists will search the local db to see if a query was already performed with a search term
 func MovieIMDBJSONExists(ctx context.Context, store *db.Storage, search string) (bool, error) {
 	return store.MovieStore.IMDBJSONExists(ctx, search)
+}
+
+// AllMovies returns all movies in the database
+func AllMovies(ctx context.Context, store *db.Storage) ([]Movie, error) {
+	em, err := store.MovieStore.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	movies := make([]Movie, len(em))
+	for idx, movie := range em {
+		movies[idx] = Movie(movie)
+	}
+	return movies, nil
 }

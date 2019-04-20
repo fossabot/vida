@@ -61,20 +61,6 @@ var mediaSearchCmd = &cobra.Command{
 		case "series":
 			exit(ErrNotImplemented)
 		}
-
-		// walk dir and recursively search
-
-		//suggestion, err := meta.SearchIMDB(search)
-		//if err != nil {
-		//	exit(err)
-		//}
-		//
-		//movie, err := suggestion.ToMovie()
-		//if err != nil {
-		//	exit(err)
-		//}
-
-		//color.Blue("%+v", "movie") // should be generated at build time
 	},
 }
 

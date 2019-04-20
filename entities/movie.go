@@ -9,6 +9,7 @@ type Movie struct {
 	ImageURL    string `db:"image_url"`
 	TrailerURL  string `db:"trailer_url"`
 	PlaybackURI string `db:"playback_uri"`
+	Starring    string `db:"starring"`
 	Duration    string `db:"duration"`
 	Year        int64  `db:"year"`
 	ReleaseDate int64  `db:"release_date"`

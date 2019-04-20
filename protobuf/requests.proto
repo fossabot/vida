@@ -1,0 +1,39 @@
+syntax = 'proto3';
+
+import "google/protobuf/empty.proto";
+
+package vida;
+
+option go_package = "pb";
+
+
+message Movie {
+    int64       id              = 1;
+    string      imdb_id         = 2;
+    string      title           = 3;
+    string      synopsis        = 4;
+    string      image_url       = 5;
+    string      trailer_url     = 6;
+    string      starring        = 7;
+    string      duration        = 8;
+    int64       year            = 9;
+    int64       release_date    = 10;
+    string      search          = 11;
+    string      playback_uri    = 12;
+    int64       created_at      = 13;
+    int64       updated_at      = 14;
+    string      imdb_json       = 15;
+}
+
+message SearchMovieRequest {
+    string path = 1;
+}
+
+message SearchMovieResponse {
+    repeated Movie movies = 1;
+}
+
+service MoviesRequests {
+    rpc SearchMovies (SearchMovieRequest) returns (stream Movie);
+    rpc ListMovies (google.protobuf.Empty) returns (SearchMovieResponse);
+}

@@ -29,5 +29,6 @@ func NewPostgres(cfg config.Config) (*Storage, error) {
 // MovieStore interface represents a contract for all movie storage operations
 type MovieStore interface {
 	Store(ctx context.Context, movie *entities.Movie) error
+	All(ctx context.Context) ([]entities.Movie, error)
 	IMDBJSONExists(ctx context.Context, search string) (bool, error)
 }
