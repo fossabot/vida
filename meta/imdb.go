@@ -3,10 +3,12 @@ package meta
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gangachris/vida/models"
-	"github.com/pkg/errors"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/pkg/errors"
+
+	"github.com/gangachris/vida/models"
 )
 
 const (
@@ -100,6 +102,7 @@ func (i *IMDBSuggestion) ToMovie(playback string) (movie models.Movie, err error
 		TrailerURL:  trailerURL,
 		Year:        m.Year,
 		PlaybackURI: playback,
+		Starring:    m.Staring,
 	}
 
 	imdbJSON, err := json.Marshal(i)

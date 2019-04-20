@@ -47,15 +47,49 @@ The following commands are available to use (before the UI is built)
 ./vida media search --type="<type>" --dir="dir" 
 ```
 
+## GRPC
+Vida comes with a GRPC Server which you can use to test. To be able to test the GRPC server you need to have a grpc tool installed. There are 
+many tools out there, but I decided to use the [GRPC CLI tool](https://github.com/grpc/grpc/blob/master/doc/command_line_tool.md).
+
+You also need to have [protoc](https://github.com/protocolbuffers/protobuf) command line installed. (`brew install protobuf`)
+
+To get started, make sure you run: (not needed as the generated code is on the repo, but this generates the protobuf code)
+```bash
+make proto
+```
+
+Make sure both the [DB and the Migrations](#developer-environment) are running and the start the GRPC server
+```bash
+make server-grpc
+```
+
+To search for movies, get the path where your local movies are stored, and run
+```bash
+# not yet implemented
+grpc_cli call localhost:50005 MoviesRequests.SearchMovies "/User/Movies"
+```
+
+To list the movies whose metadata has already been collected, run
+```bash
+grpc_cli call localhost:50005 MoviesRequests.ListMovies ""
+```
+
+
 ## Developer Environment
 In case you want to set this up for developments, you can use the following steps.
 
 ### 1. Run migrations
+Before running migrations, make sure the database is up and running
+```bash
+make db
+```
+
 Migration files in Vida are just `.sql` files and in this case they have a dialect for `postgres`. To create new migration files
 run
 ```bash
 make migrate-create name="change_to_sql_schema"
 ```
+
 This will create two new files `<timestamp>_change_to_sql_schema.up.sql` and `<timestampe>_change_to_sql_schema.up.sql` representing the up and down
 migrations respectively.
 

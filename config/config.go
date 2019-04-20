@@ -7,11 +7,17 @@ import (
 // Config represents the configurations for the server
 type Config struct {
 	database Database
+	grpcPort string `default:"50005"`
 }
 
 // Database returns the config database
 func (c Config) Database() Database {
 	return c.database
+}
+
+// GRPCPort returns the port to be used by the GRPC server
+func (c Config) GRPCPort() string {
+	return getDefaultValue(c, "grpcPort")
 }
 
 // Load returns the configuration for the server
