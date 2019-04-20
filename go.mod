@@ -10,7 +10,7 @@ require (
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/karrick/godirwalk v1.8.0
 	github.com/kr/pty v1.1.4 // indirect
-	github.com/lib/pq v1.0.0
+	github.com/lib/pq v1.1.0
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
 	github.com/pkg/errors v0.8.1
