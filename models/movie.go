@@ -3,8 +3,8 @@ package models
 import (
 	"context"
 
+	"github.com/gangachris/vida/db"
 	"github.com/gangachris/vida/entities"
-	"github.com/gangachris/vida/storage"
 )
 
 // Movie represents a movie
@@ -22,10 +22,16 @@ type Movie struct {
 	CreatedAt   int64  `json:"created_at,omitempty"`
 	UpdatedAt   int64  `json:"updated_at,omitempty"`
 	IMDBJSON    string `json:"imdbjson,omitempty"`
+	Search      string `json:"search"`
 }
 
 // Store save a movie to the storage
-func (m *Movie) Store(ctx context.Context, store *storage.Storage) error {
+func (m *Movie) Store(ctx context.Context, store *db.Storage) error {
 	movie := entities.Movie(*m)
 	return store.MovieStore.Store(ctx, &movie)
+}
+
+// MovieIMDBJSONExists will search the local db to see if a query was already performed with a search term
+func MovieIMDBJSONExists(ctx context.Context, store *db.Storage, search string) (bool, error) {
+	return store.MovieStore.IMDBJSONExists(ctx, search)
 }

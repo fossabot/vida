@@ -31,7 +31,7 @@ COMMENT ON SCHEMA vida
 CREATE TABLE vida.movies
 (
   id serial NOT NULL,
-  imdb_id character varying(10),
+  imdb_id character varying(10) unique,
   title text NOT NULL,
   synopsis text,
   image_url text,
@@ -41,6 +41,7 @@ CREATE TABLE vida.movies
   duration character varying(8),
   year integer NOT NULL,
   imdb_json json,
+  search text,
   release_date timestamp without time zone,
   created_at timestamp without time zone  DEFAULT now(),
   updated_at timestamp without time zone  DEFAULT now()

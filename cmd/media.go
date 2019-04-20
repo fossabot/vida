@@ -13,8 +13,9 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/gangachris/vida/config"
+	"github.com/gangachris/vida/db"
 	"github.com/gangachris/vida/meta"
-	"github.com/gangachris/vida/storage"
+	"github.com/gangachris/vida/models"
 )
 
 func init() {
@@ -79,7 +80,7 @@ var mediaSearchCmd = &cobra.Command{
 
 func searchMovies(dir string) error {
 	cfg := config.Load()
-	store, err := storage.NewPostgres(cfg)
+	store, err := db.NewPostgres(cfg)
 	if err != nil {
 		exit(errors.Wrap(err, "could not initialize the data store"))
 	}
@@ -99,6 +100,10 @@ func searchMovies(dir string) error {
 			}
 			search := strings.TrimSuffix(file, ".mp4") // TODO: should support other formats
 
+			exists, err := models.MovieIMDBJSONExists(context.Background(), store, search)
+			if !exists || err != nil {
+				return err
+			}
 			imdbSuggestion, err := metaHelper.SearchIMDB(search)
 			if err != nil {
 				return err

@@ -15,4 +15,5 @@ type Movie struct {
 	CreatedAt   int64  `db:"created_at"`
 	UpdatedAt   int64  `db:"update_at"`
 	IMDBJSON    string `db:"imdb_json"`
+	Search      string `db:"search"`
 }
