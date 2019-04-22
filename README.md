@@ -65,8 +65,7 @@ make server-grpc
 
 To search for movies, get the path where your local movies are stored, and run
 ```bash
-# not yet implemented
-grpc_cli call localhost:50005 MoviesRequests.SearchMovies "/User/Movies"
+grpc_cli call localhost:50005 MoviesRequests.SearchMovies "path: '<path/to/your/media>'"
 ```
 
 To list the movies whose metadata has already been collected, run

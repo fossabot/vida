@@ -1,19 +1,9 @@
 package cmd
 
 import (
-	"context"
-	"fmt"
-	"net/http"
-	"path/filepath"
-	"strings"
-
 	"github.com/fatih/color"
-	"github.com/karrick/godirwalk"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/gangachris/vida/config"
-	"github.com/gangachris/vida/db"
 	"github.com/gangachris/vida/meta"
 	"github.com/gangachris/vida/models"
 )
@@ -55,62 +45,27 @@ var mediaSearchCmd = &cobra.Command{
 
 		switch mediaType {
 		case "movies":
-			if err := searchMovies(dir); err != nil {
-				exit(errors.Wrap(err, "could not search for movies"))
+			movieCh := make(chan models.Movie)
+			errCh := make(chan error)
+			doneCh := make(chan struct{})
+
+			go meta.SearchMovies(dir, nil, doneCh, errCh)
+
+			for {
+				select {
+				case movie := <-movieCh:
+					color.Yellow("%+v/n", movie)
+				case err := <-errCh:
+					if err != nil {
+						exit(err)
+					}
+				case <-doneCh:
+					color.Green("Movies search complete. check the database to see metadata or call the grpc cli")
+					return
+				}
 			}
 		case "series":
 			exit(ErrNotImplemented)
 		}
 	},
-}
-
-func searchMovies(dir string) error {
-	cfg := config.Load()
-	store, err := db.NewPostgres(cfg)
-	if err != nil {
-		exit(errors.Wrap(err, "could not initialize the data store"))
-	}
-	metaHelper := meta.Meta{Client: http.DefaultClient}
-
-	absolutePath, err := filepath.Abs(dir)
-	if err != nil {
-		exit(errors.Wrap(err, fmt.Sprint("could not get absolute path of %q"+dir)))
-	}
-	return godirwalk.Walk(absolutePath, &godirwalk.Options{
-		Unsorted: true,
-		Callback: func(osPathname string, directoryEntry *godirwalk.Dirent) error {
-			// get the last part with the name of the file without the .mp4 extension
-			_, file := filepath.Split(osPathname)
-			if file == strings.TrimPrefix(dir, "./") {
-				return nil
-			}
-			search := strings.TrimSuffix(file, ".mp4") // TODO: should support other formats
-
-			exists, err := models.MovieIMDBJSONExists(context.Background(), store, search)
-			if !exists || err != nil {
-				return err
-			}
-			imdbSuggestion, err := metaHelper.SearchIMDB(search)
-			if err != nil {
-				return err
-			}
-
-			movie, err := imdbSuggestion.ToMovie(osPathname)
-			if err != nil {
-				return err
-			}
-
-			// this will be removed to a central location for the API
-			if err := movie.Store(context.Background(), store); err != nil {
-				color.Green("%+v", err)
-				return nil
-			}
-
-			return nil
-		},
-		ErrorCallback: func(s string, e error) godirwalk.ErrorAction {
-			//color.Red("%s", errors.Wrap(e, s))
-			return godirwalk.SkipNode
-		},
-	})
 }

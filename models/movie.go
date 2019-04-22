@@ -3,6 +3,8 @@ package models
 import (
 	"context"
 
+	"github.com/pkg/errors"
+
 	"github.com/gangachris/vida/db"
 	"github.com/gangachris/vida/entities"
 )
@@ -32,12 +34,20 @@ func (m *Movie) Store(ctx context.Context, store *db.Storage) error {
 	return store.MovieStore.Store(ctx, &movie)
 }
 
-// MovieIMDBJSONExists will search the local db to see if a query was already performed with a search term
-func MovieIMDBJSONExists(ctx context.Context, store *db.Storage, search string) (bool, error) {
-	return store.MovieStore.IMDBJSONExists(ctx, search)
+// FindMovieBySearchTerm will search the db for a search term specified
+func FindMovieBySearchTerm(ctx context.Context, store *db.Storage, search string) (*Movie, error) {
+	em, err := store.MovieStore.FindMovieBySearchTerm(ctx, search)
+	if err != nil {
+		return nil, errors.Wrap(err, "could not get movie by search term")
+	}
+	if em == nil {
+		return nil, nil
+	}
+	movie := Movie(*em)
+	return &movie, err
 }
 
-// AllMovies returns all movies in the database
+// AllMovies returns all movies in th e database
 func AllMovies(ctx context.Context, store *db.Storage) ([]Movie, error) {
 	em, err := store.MovieStore.All(ctx)
 	if err != nil {
