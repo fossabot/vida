@@ -16,8 +16,8 @@ import (
 	"github.com/gangachris/vida/models"
 )
 
-// SearchMovies is used to search for movies, save them in the database and pass the results to a channel
-func SearchMovies(dir string, movieCh chan<- models.Movie, doneCh chan struct{}, errCh chan<- error) {
+// SearchMoviesFromDir is used to search for movies, save them in the database and pass the results to a channel
+func SearchMoviesFromDir(dir string, movieCh chan<- models.Movie, doneCh chan struct{}, errCh chan<- error) {
 	defer func() {
 		if movieCh != nil {
 			close(movieCh)
