@@ -6,6 +6,7 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 
 	"github.com/gangachris/vida/db"
+	"github.com/gangachris/vida/meta"
 	"github.com/gangachris/vida/models"
 	"github.com/gangachris/vida/pb"
 )
@@ -15,10 +16,26 @@ type moviesRequestServer struct {
 }
 
 func (m *moviesRequestServer) SearchMovies(req *pb.SearchMovieRequest, server pb.MoviesRequests_SearchMoviesServer) error {
-	// do the search
-	// send to the database
-	// stream results
-	panic("implement me")
+	movieCh := make(chan models.Movie)
+	errCh := make(chan error)
+	doneCh := make(chan struct{})
+
+	go meta.SearchMovies(req.GetPath(), movieCh, doneCh, errCh)
+
+	for {
+		select {
+		case movie := <-movieCh:
+			if err := server.Send(MovieToPbMovie(movie)); err != nil {
+				return err
+			}
+		case err := <-errCh:
+			if err != nil {
+				return err
+			}
+		case <-doneCh:
+			return nil
+		}
+	}
 }
 
 func (m *moviesRequestServer) ListMovies(ctx context.Context, e *empty.Empty) (*pb.SearchMovieResponse, error) {
@@ -28,27 +45,9 @@ func (m *moviesRequestServer) ListMovies(ctx context.Context, e *empty.Empty) (*
 		return nil, err
 	}
 
-	// conversion 🙄
 	moviesResponse := make([]*pb.Movie, len(movies))
 	for idx, movie := range movies {
-		m := &pb.Movie{
-			Id:          movie.ID,
-			ImdbId:      movie.IMDBID,
-			Title:       movie.Title,
-			Synopsis:    movie.Synopsis,
-			ImageUrl:    movie.ImageURL,
-			TrailerUrl:  movie.TrailerURL,
-			Starring:    movie.Starring,
-			Duration:    movie.Duration,
-			Year:        movie.Year,
-			ReleaseDate: movie.ReleaseDate,
-			Search:      movie.Search,
-			PlaybackUri: movie.PlaybackURI,
-			CreatedAt:   movie.CreatedAt,
-			UpdatedAt:   movie.UpdatedAt,
-			ImdbJson:    movie.IMDBJSON, // not sure whether we need this
-		}
-		moviesResponse[idx] = m
+		moviesResponse[idx] = MovieToPbMovie(movie)
 	}
 
 	response := &pb.SearchMovieResponse{
@@ -56,4 +55,26 @@ func (m *moviesRequestServer) ListMovies(ctx context.Context, e *empty.Empty) (*
 	}
 
 	return response, nil
+}
+
+// MovieToPbMovie converts a movie model to a protocol buffer movie
+// conversion 🙄
+func MovieToPbMovie(m models.Movie) *pb.Movie {
+	return &pb.Movie{
+		Id:          m.ID,
+		ImdbId:      m.IMDBID,
+		Title:       m.Title,
+		Synopsis:    m.Synopsis,
+		ImageUrl:    m.ImageURL,
+		TrailerUrl:  m.TrailerURL,
+		Starring:    m.Starring,
+		Duration:    m.Duration,
+		Year:        m.Year,
+		ReleaseDate: m.ReleaseDate,
+		Search:      m.Search,
+		PlaybackUri: m.PlaybackURI,
+		CreatedAt:   m.CreatedAt,
+		UpdatedAt:   m.UpdatedAt,
+		ImdbJson:    m.IMDBJSON, // not sure whether we need this
+	}
 }

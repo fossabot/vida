@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/jmoiron/sqlx"
 
@@ -43,20 +44,22 @@ func (m MovieStore) All(ctx context.Context) (movies []entities.Movie, err error
 	return
 }
 
-// IMDBJSONExists checks wether the potential json to be returned was already searched/request already sent
-func (m MovieStore) IMDBJSONExists(ctx context.Context, search string) (bool, error) {
+// FindMovieBySearchTerm checks whether the potential json to be returned was already searched/request already sent
+func (m MovieStore) FindMovieBySearchTerm(ctx context.Context, search string) (*entities.Movie, error) {
 	query := `
-		SELECT COUNT(*)
+		SELECT
+			id, imdb_id, title, image_url, trailer_url, playback_uri, year, duration
 		FROM ` + moviesTableName + `
 		WHERE
 			imdb_json ->> 'q' = $1
 	`
-	var count int
-	if err := m.client.QueryRow(query, search).Scan(&count); err != nil {
-		return false, err
+	var movie entities.Movie
+	err := m.client.Get(&movie, query, search)
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
-	if count == 0 {
-		return false, nil
+	if err != nil {
+		return nil, err
 	}
-	return true, nil
+	return &movie, nil
 }
