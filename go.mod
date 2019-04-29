@@ -6,10 +6,8 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/golang-migrate/migrate/v4 v4.3.1
 	github.com/golang/protobuf v1.3.1
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/karrick/godirwalk v1.8.2
-	github.com/kr/pty v1.1.3 // indirect
 	github.com/lib/pq v1.1.0
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
