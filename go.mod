@@ -8,7 +8,7 @@ require (
 	github.com/golang/protobuf v1.3.1
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jmoiron/sqlx v1.2.0
-	github.com/karrick/godirwalk v1.8.0
+	github.com/karrick/godirwalk v1.8.2
 	github.com/kr/pty v1.1.3 // indirect
 	github.com/lib/pq v1.1.0
 	github.com/mattn/go-colorable v0.1.1 // indirect
