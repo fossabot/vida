@@ -10,10 +10,3 @@ COPY go.sum .
 RUN go mod download
 
 COPY . .
-
-RUN go install -v ./...
-
-# Now copy it into our base image.
-FROM gcr.io/distroless/base
-COPY --from=build /go/bin/vida /
-CMD ["/vida"]

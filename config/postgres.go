@@ -1,6 +1,9 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 // Postgres represents the postgres config for the server
 type Postgres struct {
@@ -33,6 +36,10 @@ func (p Postgres) DSN() string {
 
 // Host returns postgres host
 func (p Postgres) Host() string {
+	host := os.Getenv("DB_HOST")
+	if host != "" {
+		return host
+	}
 	if p.host != "" {
 		return p.host
 	}
@@ -79,6 +86,7 @@ func (p Postgres) SSLMode() string {
 	return getDefaultValue(p, "sslmode")
 }
 
+// DriverName returns the driver name for postgres
 func (p Postgres) DriverName() string {
 	if p.drivername != "" {
 		return p.drivername
@@ -86,6 +94,7 @@ func (p Postgres) DriverName() string {
 	return getDefaultValue(p, "drivername")
 }
 
+// Schema retruns the schema for the database
 func (p Postgres) Schema() string {
 	if p.schema != "" {
 		return p.schema

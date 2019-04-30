@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/gangachris/vida)](https://goreportcard.com/report/github.com/gangachris/vida)
 
 Vida is a media server built with Golang and VueJS
+![](./poster.png)
 
 ## System Requirements
 1. Docker and Docker Compose
