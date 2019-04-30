@@ -49,7 +49,7 @@ var mediaSearchCmd = &cobra.Command{
 			errCh := make(chan error)
 			doneCh := make(chan struct{})
 
-			go meta.SearchMovies(dir, nil, doneCh, errCh)
+			go meta.SearchMoviesFromDir(dir, nil, doneCh, errCh)
 
 			for {
 				select {

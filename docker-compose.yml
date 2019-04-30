@@ -1,7 +1,35 @@
-version: '3'
+version: '3.7'
+
 services:
-  vida-server:
+  envoy-proxy:
+    image: envoyproxy/envoy:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    links:
+      - vida-grpc
+    networks:
+      - vida
+    command: "/usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l trace --log-path /tmp/envoy_info.log"
+
+  vida-grpc:
     build: .
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: vida
+      DB_PASSWORD: vida
+      DB_DATABASE: vida
+    expose:
+      - 50005
+    ports:
+      - 50005:50005
+    links:
+      - postgres
+    networks:
+      - vida
+    command: make server-grpc
 #  vida-client:
   postgres:
     image: postgres:11
@@ -14,6 +42,10 @@ services:
       POSTGRES_PASSWORD: vida
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - vida
 
+networks:
+  vida:
 
 # jaeger, prometheus, grfana, kafaka(maybe)

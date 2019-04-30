@@ -20,7 +20,7 @@ func (m *moviesRequestServer) SearchMovies(req *pb.SearchMovieRequest, server pb
 	errCh := make(chan error)
 	doneCh := make(chan struct{})
 
-	go meta.SearchMovies(req.GetPath(), movieCh, doneCh, errCh)
+	go meta.SearchMoviesFromDir(req.GetPath(), movieCh, doneCh, errCh)
 
 	for {
 		select {

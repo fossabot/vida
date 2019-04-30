@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/gangachris/vida)](https://goreportcard.com/report/github.com/gangachris/vida)
 
 Vida is a media server built with Golang and VueJS
+![](./poster.png)
 
 ## System Requirements
 1. Docker and Docker Compose
@@ -51,7 +52,7 @@ The following commands are available to use (before the UI is built)
 Vida comes with a GRPC Server which you can use to test. To be able to test the GRPC server you need to have a grpc tool installed. There are 
 many tools out there, but I decided to use the [GRPC CLI tool](https://github.com/grpc/grpc/blob/master/doc/command_line_tool.md).
 
-You also need to have [protoc](https://github.com/protocolbuffers/protobuf) command line installed. (`brew install protobuf`)
+You also need to have [protoc](https://github.com/protocolbuffers/protobuf/releases) command line installed. (`brew install protobuf`)
 
 To get started, make sure you run: (not needed as the generated code is on the repo, but this generates the protobuf code)
 ```bash

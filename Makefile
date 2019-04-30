@@ -35,13 +35,16 @@ data:
 PROTOBUF_DIR = protobuf
 PROTO_FILES = $(PROTOBUF_DIR)/*.proto
 PROTOS_GO_OUT_PATH = pb
+JS_OUT_DIR = client/pb
 
 #proto
 .PHONY: proto
 proto:
-	@mkdir -p pb
+	@mkdir -p pb client/pb
 	@protoc --proto_path=${PROTOBUF_DIR} \
 			 --go_out=plugins=grpc:$(PROTOS_GO_OUT_PATH) \
+			 --js_out=import_style=commonjs:${JS_OUT_DIR} \
+             --grpc-web_out=import_style=commonjs,mode=grpcwebtext:${JS_OUT_DIR} \
 			 ${PROTO_FILES}
 
 .PHONY: server-grpc
