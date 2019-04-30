@@ -15,7 +15,7 @@ Vida is a media server built with Golang and VueJS
 ## Status
 Still a WIP but the following works. Right now we can retrieve metadata about movies in a directory using IMDB
 
-1. Make sure the databse is running
+1. Make sure the database is running
 ```bash
 make db
 ```
