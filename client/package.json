@@ -19,7 +19,7 @@
     "google-protobuf": "3.7.1",
     "grpc-web": "1.0.4",
     "nuxt": "2.6.3",
-    "vuetify": "1.5.12",
+    "vuetify": "1.5.14",
     "vuetify-loader": "1.2.2"
   },
   "devDependencies": {
