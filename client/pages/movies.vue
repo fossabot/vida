@@ -6,8 +6,8 @@
         </v-layout>
         <v-container fluid grid-list-sm>
             <v-layout row wrap>
-                <v-flex v-for="movie in movies" :key="movie" xs2>
-                    <img :src="movie.image_url" class="image" :alt="movie.title" width="100%" height="100%">
+                <v-flex v-for="movie in movies" :key="movie.title" xs2>
+                    <img :src="movie.imageUrl" class="image" :alt="movie.title" width="100%" height="100%">
                 </v-flex>
             </v-layout>
         </v-container>
@@ -42,10 +42,7 @@
                         console.log(err.message);
                     } else {
                         response.getMoviesList().forEach(movie => {
-                            this.movies.push({
-                                title: movie.getTitle(),
-                                image_url: movie.getImageUrl()
-                            })
+                            this.movies.push(movie.toObject())
                         })
                     }
                 });
