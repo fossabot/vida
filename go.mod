@@ -7,7 +7,7 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.3.1
 	github.com/golang/protobuf v1.3.1
 	github.com/jmoiron/sqlx v1.2.0
-	github.com/karrick/godirwalk v1.8.2
+	github.com/karrick/godirwalk v1.10.3
 	github.com/lib/pq v1.1.1
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
