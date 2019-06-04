@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/fatih/color v1.7.0
-	github.com/golang-migrate/migrate/v4 v4.3.1
+	github.com/golang-migrate/migrate/v4 v4.4.0
 	github.com/golang/protobuf v1.3.1
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/karrick/godirwalk v1.8.2
