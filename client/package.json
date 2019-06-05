@@ -14,7 +14,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@nuxtjs/axios": "5.4.1",
+    "@nuxtjs/axios": "5.5.4",
     "cross-env": "5.2.0",
     "google-protobuf": "3.7.1",
     "grpc-web": "1.0.4",
