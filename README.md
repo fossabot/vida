@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.com/gangachris/vida.svg?branch=master)](https://travis-ci.com/gangachris/vida)
 [![codecov](https://codecov.io/gh/gangachris/vida/branch/master/graph/badge.svg)](https://codecov.io/gh/gangachris/vida)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gangachris/vida)](https://goreportcard.com/report/github.com/gangachris/vida)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgangachris%2Fvida.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgangachris%2Fvida?ref=badge_shield)
 
 Vida is a media server built with Golang and VueJS
 ![](./poster.png)
@@ -107,3 +108,7 @@ To rollback the previous migration, run:
 ```bash
 make migrate-rollback #should be able to capture steps as a parameter soon
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgangachris%2Fvida.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgangachris%2Fvida?ref=badge_large)
